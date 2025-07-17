@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -69,33 +70,55 @@ const Index = () => {
     setAssessmentData(prev => ({ ...prev, ...newData }));
   };
 
-  const CurrentComponent = steps[currentStep].component;
-
-  const getComponentProps = () => {
-    const baseProps = {
-      onNext: handleNext,
-      onPrevious: handlePrevious,
-    };
-
-    // Only pass assessment data props to components that need them
-    if (currentStep === 0) {
-      // Introduction section only needs onNext
-      return { onNext: handleNext };
-    } else if (currentStep === steps.length - 1) {
-      // Career guidance section only needs assessment data and navigation
-      return {
-        ...baseProps,
-        assessmentData,
-      };
-    } else {
-      // Other sections need full props
-      return {
-        ...baseProps,
-        assessmentData,
-        updateAssessmentData,
-        currentStep,
-        totalSteps: steps.length,
-      };
+  const renderCurrentComponent = () => {
+    switch (currentStep) {
+      case 0:
+        return <IntroductionSection onNext={handleNext} />;
+      case 1:
+        return (
+          <PsychometricSection
+            assessmentData={assessmentData}
+            updateAssessmentData={updateAssessmentData}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      case 2:
+        return (
+          <TechnicalSection
+            assessmentData={assessmentData}
+            updateAssessmentData={updateAssessmentData}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      case 3:
+        return (
+          <WiscarSection
+            assessmentData={assessmentData}
+            updateAssessmentData={updateAssessmentData}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      case 4:
+        return (
+          <ResultsSection
+            assessmentData={assessmentData}
+            updateAssessmentData={updateAssessmentData}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      case 5:
+        return (
+          <CareerGuidanceSection
+            assessmentData={assessmentData}
+            onPrevious={handlePrevious}
+          />
+        );
+      default:
+        return <IntroductionSection onNext={handleNext} />;
     }
   };
 
@@ -164,7 +187,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-8">
-              <CurrentComponent {...getComponentProps()} />
+              {renderCurrentComponent()}
             </CardContent>
           </Card>
         </div>
