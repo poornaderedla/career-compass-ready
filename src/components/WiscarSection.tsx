@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
-import { Target, ArrowRight, ArrowLeft, Heart, Lightbulb, Cog2, Brain, BookOpen, Briefcase } from "lucide-react";
+import { Target, ArrowRight, ArrowLeft, Heart, Lightbulb, Cog, Brain, BookOpen, Briefcase } from "lucide-react";
 import { AssessmentData } from "@/pages/Index";
 
 interface WiscarSectionProps {
@@ -49,7 +49,7 @@ const WiscarSection: React.FC<WiscarSectionProps> = ({
     {
       key: 'skill' as keyof typeof scores,
       title: 'Skill',
-      icon: Cog2,
+      icon: Cog,
       description: 'Current familiarity with platforms, logic, and GUI tools',
       statement: 'I have strong familiarity with software platforms and logical thinking.',
       color: 'blue'

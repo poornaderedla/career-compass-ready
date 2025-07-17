@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -72,6 +71,34 @@ const Index = () => {
 
   const CurrentComponent = steps[currentStep].component;
 
+  const getComponentProps = () => {
+    const baseProps = {
+      onNext: handleNext,
+      onPrevious: handlePrevious,
+    };
+
+    // Only pass assessment data props to components that need them
+    if (currentStep === 0) {
+      // Introduction section only needs onNext
+      return { onNext: handleNext };
+    } else if (currentStep === steps.length - 1) {
+      // Career guidance section only needs assessment data and navigation
+      return {
+        ...baseProps,
+        assessmentData,
+      };
+    } else {
+      // Other sections need full props
+      return {
+        ...baseProps,
+        assessmentData,
+        updateAssessmentData,
+        currentStep,
+        totalSteps: steps.length,
+      };
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
@@ -137,14 +164,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-8">
-              <CurrentComponent 
-                assessmentData={assessmentData}
-                updateAssessmentData={updateAssessmentData}
-                onNext={handleNext}
-                onPrevious={handlePrevious}
-                currentStep={currentStep}
-                totalSteps={steps.length}
-              />
+              <CurrentComponent {...getComponentProps()} />
             </CardContent>
           </Card>
         </div>
